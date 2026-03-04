@@ -49,6 +49,250 @@ graph TB
 - Data validation: Joi or Zod
 - Storage: JSON files with proper async file operations
 
+## Sequence Diagrams
+
+### 1. Browse Products Flow
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API as API Layer
+    participant PS as ProductService
+    participant PR as ProductRepository
+    participant Storage as JSON Storage
+
+    Client->>API: GET /api/products
+    API->>PS: get_all_products()
+    PS->>PR: find_all()
+    PR->>Storage: Read products.json
+    Storage-->>PR: Product data
+    PR-->>PS: List[Product]
+    PS-->>API: List[Product]
+    API-->>Client: 200 OK {products: [...]}
+```
+
+### 2. Add Item to Cart Flow
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API as API Layer
+    participant CS as CartService
+    participant PS as ProductService
+    participant PR as ProductRepository
+    participant CR as CartRepository
+    participant Storage as JSON Storage
+
+    Client->>API: POST /api/carts/user1/items<br/>{productId, quantity}
+    API->>CS: add_item(user1, productId, quantity)
+    CS->>PS: get_product_by_id(productId)
+    PS->>PR: find_by_id(productId)
+    PR->>Storage: Read products.json
+    Storage-->>PR: Product data
+    PR-->>PS: Product
+    PS-->>CS: Product
+    
+    CS->>PS: check_inventory(productId, quantity)
+    PS-->>CS: true/false
+    
+    alt Insufficient Inventory
+        CS-->>API: ValueError
+        API-->>Client: 400 Bad Request<br/>{error: "Insufficient inventory"}
+    else Sufficient Inventory
+        CS->>CR: find_by_user_id(user1)
+        CR->>Storage: Read carts.json
+        Storage-->>CR: Cart data
+        CR-->>CS: Cart
+        
+        CS->>CS: Update cart items
+        CS->>CS: calculate_total(cart)
+        
+        CS->>CR: save(cart)
+        CR->>Storage: Write carts.json
+        Storage-->>CR: Success
+        CR-->>CS: Success
+        
+        CS-->>API: Cart
+        API-->>Client: 200 OK<br/>{cart: {...}, total: 299.98}
+    end
+```
+
+### 3. Checkout Flow
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API as API Layer
+    participant OS as OrderService
+    participant CS as CartService
+    participant PS as ProductService
+    participant OR as OrderRepository
+    participant PR as ProductRepository
+    participant CR as CartRepository
+    participant Storage as JSON Storage
+
+    Client->>API: POST /api/orders/user1/checkout
+    API->>OS: checkout(user1)
+    
+    OS->>CS: get_cart(user1)
+    CS->>CR: find_by_user_id(user1)
+    CR->>Storage: Read carts.json
+    Storage-->>CR: Cart data
+    CR-->>CS: Cart
+    CS-->>OS: Cart
+    
+    alt Empty Cart
+        OS-->>API: ValueError
+        API-->>Client: 400 Bad Request<br/>{error: "Cannot checkout with empty cart"}
+    else Cart Has Items
+        loop For each cart item
+            OS->>PS: check_inventory(productId, quantity)
+            PS->>PR: find_by_id(productId)
+            PR->>Storage: Read products.json
+            Storage-->>PR: Product data
+            PR-->>PS: Product
+            PS-->>OS: true/false
+            
+            alt Insufficient Inventory
+                OS-->>API: ValueError
+                API-->>Client: 400 Bad Request<br/>{error: "Insufficient inventory"}
+            end
+        end
+        
+        OS->>OS: Create order with items
+        OS->>CS: calculate_total(cart)
+        CS-->>OS: Total amount
+        
+        loop For each cart item
+            OS->>PS: reduce_inventory(productId, quantity)
+            PS->>PR: find_by_id(productId)
+            PR->>Storage: Read products.json
+            Storage-->>PR: Product data
+            PR-->>PS: Product
+            PS->>PS: product.inventory -= quantity
+            PS->>PR: update(product)
+            PR->>Storage: Write products.json
+            Storage-->>PR: Success
+            PR-->>PS: Success
+            PS-->>OS: Success
+        end
+        
+        OS->>OR: save(order)
+        OR->>Storage: Write orders.json
+        Storage-->>OR: Success
+        OR-->>OS: Success
+        
+        OS->>CS: clear_cart(user1)
+        CS->>CR: delete(user1)
+        CR->>Storage: Write carts.json
+        Storage-->>CR: Success
+        CR-->>CS: Success
+        CS-->>OS: Success
+        
+        OS-->>API: Order
+        API-->>Client: 200 OK<br/>{order: {...}}
+    end
+```
+
+### 4. Search Products Flow
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API as API Layer
+    participant PS as ProductService
+    participant PR as ProductRepository
+    participant Storage as JSON Storage
+
+    Client->>API: GET /api/products/search?q=laptop&category=Electronics
+    API->>PS: search_products(query="laptop", category="Electronics")
+    PS->>PR: find_all()
+    PR->>Storage: Read products.json
+    Storage-->>PR: All products
+    PR-->>PS: List[Product]
+    
+    PS->>PS: Filter by query (name contains "laptop")
+    PS->>PS: Filter by category (category == "Electronics")
+    
+    PS-->>API: Filtered List[Product]
+    API-->>Client: 200 OK {products: [...]}
+```
+
+### 5. Update Cart Item Quantity Flow
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API as API Layer
+    participant CS as CartService
+    participant PS as ProductService
+    participant CR as CartRepository
+    participant Storage as JSON Storage
+
+    Client->>API: PUT /api/carts/user1/items/prod-001<br/>{quantity: 3}
+    API->>CS: update_item_quantity(user1, prod-001, 3)
+    
+    alt Quantity <= 0
+        CS->>CS: remove_item(user1, prod-001)
+        CS->>CR: find_by_user_id(user1)
+        CR->>Storage: Read carts.json
+        Storage-->>CR: Cart data
+        CR-->>CS: Cart
+        CS->>CS: Remove item from cart
+        CS->>CR: save(cart)
+        CR->>Storage: Write carts.json
+        Storage-->>CR: Success
+        CR-->>CS: Success
+        CS-->>API: Cart
+        API-->>Client: 200 OK {cart: {...}, total: 0}
+    else Quantity > 0
+        CS->>PS: check_inventory(prod-001, 3)
+        PS-->>CS: true/false
+        
+        alt Insufficient Inventory
+            CS-->>API: ValueError
+            API-->>Client: 400 Bad Request<br/>{error: "Insufficient inventory"}
+        else Sufficient Inventory
+            CS->>CR: find_by_user_id(user1)
+            CR->>Storage: Read carts.json
+            Storage-->>CR: Cart data
+            CR-->>CS: Cart
+            
+            CS->>CS: Update item quantity
+            CS->>CS: calculate_total(cart)
+            
+            CS->>CR: save(cart)
+            CR->>Storage: Write carts.json
+            Storage-->>CR: Success
+            CR-->>CS: Success
+            
+            CS-->>API: Cart
+            API-->>Client: 200 OK<br/>{cart: {...}, total: 449.97}
+        end
+    end
+```
+
+### 6. Get Order History Flow
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API as API Layer
+    participant OS as OrderService
+    participant OR as OrderRepository
+    participant Storage as JSON Storage
+
+    Client->>API: GET /api/orders/user1
+    API->>OS: get_user_orders(user1)
+    OS->>OR: find_by_user_id(user1)
+    OR->>Storage: Read orders.json
+    Storage-->>OR: All orders
+    OR->>OR: Filter by user_id == user1
+    OR-->>OS: List[Order]
+    OS-->>API: List[Order]
+    API-->>Client: 200 OK {orders: [...]}
+```
+
 ## Components and Interfaces
 
 ### 1. API Endpoints
