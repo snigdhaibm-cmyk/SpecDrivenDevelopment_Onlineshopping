@@ -1,0 +1,202 @@
+[
+  {
+    "id": "prod-001",
+    "name": "Wireless Bluetooth Headphones",
+    "description": "Premium noise-cancelling headphones with 30-hour battery life",
+    "price": 149.99,
+    "category": "Electronics",
+    "inventory": 45
+  },
+  {
+    "id": "prod-002",
+    "name": "Smart Watch Series 5",
+    "description": "Fitness tracking smartwatch with heart rate monitor",
+    "price": 299.99,
+    "category": "Electronics",
+    "inventory": 23
+  },
+  {
+    "id": "prod-003",
+    "name": "USB-C Charging Cable",
+    "description": "Fast charging cable compatible with most devices",
+    "price": 12.99,
+    "category": "Electronics",
+    "inventory": 150
+  },
+  {
+    "id": "prod-004",
+    "name": "Portable Power Bank",
+    "description": "20000mAh portable charger with dual USB ports",
+    "price": 39.99,
+    "category": "Electronics",
+    "inventory": 67
+  },
+  {
+    "id": "prod-005",
+    "name": "4K Webcam",
+    "description": "High-definition webcam with auto-focus and built-in microphone",
+    "price": 89.99,
+    "category": "Electronics",
+    "inventory": 12
+  },
+  {
+    "id": "prod-006",
+    "name": "Cotton T-Shirt",
+    "description": "Comfortable 100% cotton t-shirt in various colors",
+    "price": 19.99,
+    "category": "Clothing",
+    "inventory": 200
+  },
+  {
+    "id": "prod-007",
+    "name": "Denim Jeans",
+    "description": "Classic fit denim jeans with stretch fabric",
+    "price": 59.99,
+    "category": "Clothing",
+    "inventory": 85
+  },
+  {
+    "id": "prod-008",
+    "name": "Winter Jacket",
+    "description": "Waterproof insulated jacket for cold weather",
+    "price": 129.99,
+    "category": "Clothing",
+    "inventory": 34
+  },
+  {
+    "id": "prod-009",
+    "name": "Running Shoes",
+    "description": "Lightweight athletic shoes with cushioned sole",
+    "price": 79.99,
+    "category": "Clothing",
+    "inventory": 56
+  },
+  {
+    "id": "prod-010",
+    "name": "Wool Scarf",
+    "description": "Soft merino wool scarf in multiple patterns",
+    "price": 24.99,
+    "category": "Clothing",
+    "inventory": 3
+  },
+  {
+    "id": "prod-011",
+    "name": "The Great Gatsby",
+    "description": "Classic American novel by F. Scott Fitzgerald",
+    "price": 14.99,
+    "category": "Books",
+    "inventory": 42
+  },
+  {
+    "id": "prod-012",
+    "name": "Python Programming Guide",
+    "description": "Comprehensive guide to Python programming for beginners",
+    "price": 39.99,
+    "category": "Books",
+    "inventory": 28
+  },
+  {
+    "id": "prod-013",
+    "name": "Cookbook: Italian Cuisine",
+    "description": "Authentic Italian recipes from regional chefs",
+    "price": 29.99,
+    "category": "Books",
+    "inventory": 15
+  },
+  {
+    "id": "prod-014",
+    "name": "Mystery Novel Collection",
+    "description": "Box set of 5 bestselling mystery novels",
+    "price": 49.99,
+    "category": "Books",
+    "inventory": 0
+  },
+  {
+    "id": "prod-015",
+    "name": "Coffee Table Book: Architecture",
+    "description": "Stunning photography of modern architecture",
+    "price": 59.99,
+    "category": "Books",
+    "inventory": 8
+  },
+  {
+    "id": "prod-016",
+    "name": "Indoor Plant Pot Set",
+    "description": "Set of 3 ceramic pots with drainage holes",
+    "price": 34.99,
+    "category": "Home & Garden",
+    "inventory": 72
+  },
+  {
+    "id": "prod-017",
+    "name": "LED String Lights",
+    "description": "20-foot warm white LED lights for indoor/outdoor use",
+    "price": 18.99,
+    "category": "Home & Garden",
+    "inventory": 95
+  },
+  {
+    "id": "prod-018",
+    "name": "Kitchen Knife Set",
+    "description": "Professional 8-piece stainless steel knife set",
+    "price": 89.99,
+    "category": "Home & Garden",
+    "inventory": 31
+  },
+  {
+    "id": "prod-019",
+    "name": "Throw Pillow Covers",
+    "description": "Set of 4 decorative pillow covers in neutral tones",
+    "price": 27.99,
+    "category": "Home & Garden",
+    "inventory": 48
+  },
+  {
+    "id": "prod-020",
+    "name": "Garden Tool Set",
+    "description": "Complete 10-piece gardening tool kit with carrying case",
+    "price": 64.99,
+    "category": "Home & Garden",
+    "inventory": 19
+  },
+  {
+    "id": "prod-021",
+    "name": "Yoga Mat",
+    "description": "Non-slip exercise mat with carrying strap",
+    "price": 29.99,
+    "category": "Sports",
+    "inventory": 88
+  },
+  {
+    "id": "prod-022",
+    "name": "Resistance Bands Set",
+    "description": "5 resistance levels for strength training",
+    "price": 24.99,
+    "category": "Sports",
+    "inventory": 103
+  },
+  {
+    "id": "prod-023",
+    "name": "Basketball",
+    "description": "Official size indoor/outdoor basketball",
+    "price": 34.99,
+    "category": "Sports",
+    "inventory": 41
+  },
+  {
+    "id": "prod-024",
+    "name": "Water Bottle",
+    "description": "Insulated stainless steel water bottle, 32oz",
+    "price": 22.99,
+    "category": "Sports",
+    "inventory": 127
+  },
+  {
+    "id": "prod-025",
+    "name": "Tennis Racket",
+    "description": "Lightweight carbon fiber tennis racket",
+    "price": 119.99,
+    "category": "Sports",
+    "inventory": 0
+  }
+]

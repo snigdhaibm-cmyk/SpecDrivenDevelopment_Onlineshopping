@@ -1,0 +1,84 @@
+╔════════════════════════════════════════════════════════════════╗
+║         SHOPPING CART APPLICATION - LAUNCH INSTRUCTIONS        ║
+╚════════════════════════════════════════════════════════════════╝
+
+✅ Setup is complete! Follow these steps:
+
+STEP 1: Open Terminal
+----------------------
+Navigate to the python-backend directory:
+  cd shopping-cart-app/python-backend
+
+
+STEP 2: Start the Server
+-------------------------
+Run the application:
+  ./run.sh
+
+Or on Windows:
+  run.bat
+
+Or manually:
+  python3 run_app.py
+
+
+STEP 3: Open Your Browser
+--------------------------
+Once you see the startup message, open Safari (or any browser) and go to:
+
+  👉 http://localhost:8000
+
+DO NOT go to http://localhost:8000/api - that's just the API endpoint!
+
+
+WHAT YOU'LL SEE:
+----------------
+✓ A beautiful shopping cart interface with a purple gradient
+✓ 25 products displayed in a grid
+✓ Search bar and category filter at the top
+✓ Shopping cart on the right side
+✓ User selector in the header (Alice, Bob, or Carol)
+
+
+TROUBLESHOOTING:
+----------------
+If you see "Resource not found" error:
+  1. Make sure you're at http://localhost:8000 (not /api)
+  2. Check that the server is running in the terminal
+  3. Refresh the page (Cmd+R or Ctrl+R)
+  4. Look for error messages in the terminal
+
+If the server won't start:
+  1. Make sure port 8000 is not in use
+  2. Try changing the port in run_app.py
+  3. Check that you have Python 3.7+ installed
+
+If products don't load:
+  1. Open browser console (F12 or Cmd+Option+I)
+  2. Check for CORS or network errors
+  3. Verify the API works: http://localhost:8000/api/products
+
+
+FEATURES TO TRY:
+----------------
+✓ Browse products by category
+✓ Search for products by name
+✓ Add items to your cart
+✓ Update quantities with +/- buttons
+✓ Remove items from cart
+✓ Switch between users to see separate carts
+✓ Complete checkout to create an order
+✓ Watch inventory decrease after checkout
+
+
+NEED HELP?
+----------
+Run the verification script:
+  python3 verify_setup.py
+
+Check the logs in the terminal where the server is running.
+
+
+╔════════════════════════════════════════════════════════════════╗
+║                    ENJOY YOUR SHOPPING! 🛒                     ║
+╚════════════════════════════════════════════════════════════════╝
